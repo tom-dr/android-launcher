@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Magify Launcher</string>
+    <string name="search_hint">Rechercher une application</string>
+    <string name="search_results_folder">Résultats</string>
+</resources>
