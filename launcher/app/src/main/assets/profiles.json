@@ -1,0 +1,155 @@
+{
+  "defaultProfile": "personal",
+  "profiles": [
+    {
+      "id": "personal",
+      "label": "Personnel",
+      "widgets": ["agenda"],
+      "aliases": ["perso"],
+      "appsTitle": "Applications personnelles",
+      "keywords": [],
+      "blockedPackages": [],
+      "pinnedKeywords": ["tiktok"]
+    },
+    {
+      "id": "work",
+      "label": "Travail",
+      "aliases": ["pro", "professionnel", "boulot"],
+      "appsTitle": "Applications professionnelles",
+      "keywords": [],
+      "hiddenKeywords": [
+        "identité", "identite", "france identité", "franceidentite",
+        "banque populaire", "banquepopulaire", "fr.banquepopulaire",
+        "com.twitter.android", "com.instagram.android"
+      ],
+      "blockedPackages": ["com.zhiliaoapp.musically"],
+      "widgets": ["agenda", "ai_quotas"]
+    },
+    {
+      "id": "games",
+      "label": "Jeux",
+      "widgets": ["agenda_countdown"],
+      "icon": "games",
+      "appsTitle": "Applications de jeux",
+      "keywords": [],
+      "categories": ["Jeux"],
+      "blockedPackages": []
+    },
+    {
+      "id": "entertainment",
+      "label": "Divertissement",
+      "widgets": ["agenda_countdown"],
+      "icon": "tv",
+      "appsTitle": "Applications de divertissement",
+      "keywords": ["netflix", "prime video", "amazon prime", "spotify"],
+      "blockedPackages": [
+        "com.instagram.android", "com.instagram.barcelona", "com.facebook.katana",
+        "com.facebook.orca", "com.whatsapp", "com.snapchat.android",
+        "com.twitter.android", "com.zhiliaoapp.musically", "org.telegram.messenger",
+        "com.discord", "com.linkedin.android", "com.reddit.frontpage"
+      ]
+    },
+    {
+      "id": "night",
+      "label": "Nuit",
+      "icon": "night",
+      "appsTitle": "Applications de nuit",
+      "keywords": [
+        "horloge", "réveil", "zte.com.cn.alarmclock",
+        "com.google.android.dialer", "com.google.android.apps.messaging", "com.google.android.contacts"
+      ],
+      "widgets": ["agenda", "clock"],
+      "blockedPackages": [
+        "com.instagram.android", "com.instagram.barcelona", "com.facebook.katana",
+        "com.facebook.orca", "com.whatsapp", "com.snapchat.android",
+        "com.twitter.android", "com.zhiliaoapp.musically", "org.telegram.messenger",
+        "com.discord", "com.linkedin.android", "com.reddit.frontpage"
+      ]
+    },
+    {
+      "id": "car",
+      "label": "Voiture",
+      "icon": "car",
+      "aliases": ["auto", "automobile", "véhicule", "conduite"],
+      "appsTitle": "Applications de conduite",
+      "bluetoothDevices": ["Media Display"],
+      "columns": 3,
+      "pinnedKeywords": ["waze", "com.google.android.apps.maps"],
+      "keywords": [
+        "maps", "waze", "com.google.android.projection.gearhead",
+        "com.google.android.dialer", "com.google.android.apps.messaging",
+        "spotify", "deezer", "youtube music", "podcast"
+      ],
+      "blockedPackages": [
+        "com.instagram.android", "com.instagram.barcelona", "com.facebook.katana",
+        "com.facebook.orca", "com.whatsapp", "com.snapchat.android",
+        "com.twitter.android", "com.zhiliaoapp.musically", "org.telegram.messenger",
+        "com.discord", "com.linkedin.android", "com.reddit.frontpage"
+      ]
+    },
+    {
+      "id": "church",
+      "label": "Église",
+      "icon": "church",
+      "appsTitle": "Applications de l'Église",
+      "keywords": [
+        "bible", "youversion", "jw library", "jwlibrary", "prayer", "prière",
+        "worship", "louange", "church", "église", "eglise", "sermon",
+        "prédication", "predication", "verset", "glorify", "gloria"
+      ],
+      "blockedPackages": []
+    },
+    {
+      "id": "collisieum",
+      "label": "YouTuber",
+      "widgets": ["agenda_countdown"],
+      "aliases": ["coliseum", "collisium", "colisium", "tiktoker", "tiktokeur", "youtubeur"],
+      "appsTitle": "Applications YouTuber",
+      "keywords": [
+        "tiktok", "youtube studio", "youtubecreator", "chatgpt",
+        "chrome", "firefox", "brave", "opera", "edge", "duckduckgo",
+        "samsung internet", "vivaldi", "browser", "navigateur"
+      ],
+      "excludeKeywords": [
+        "google home", "googlehome", "home assistant", "homeassistant", "domotique", "chromecast", "smart home", "home"
+      ],
+      "blockedPackages": ["org.telegram.messenger"]
+    }
+  ],
+  "rules": [
+    {
+      "profileId": "church",
+      "daysOfWeek": ["SUNDAY"],
+      "start": "11:00",
+      "end": "12:00"
+    },
+    {
+      "profileId": "work",
+      "daysOfWeek": ["MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY"],
+      "start": "09:00",
+      "end": "12:00"
+    },
+    {
+      "profileId": "work",
+      "daysOfWeek": ["MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY"],
+      "start": "14:00",
+      "end": "18:00"
+    },
+    {
+      "profileId": "entertainment",
+      "daysOfWeek": ["SATURDAY", "SUNDAY"],
+      "start": "07:00",
+      "end": "19:00"
+    },
+    {
+      "profileId": "entertainment",
+      "start": "19:00",
+      "end": "24:00"
+    },
+    {
+      "profileId": "night",
+      "start": "00:00",
+      "end": "07:00"
+    }
+  ]
+}

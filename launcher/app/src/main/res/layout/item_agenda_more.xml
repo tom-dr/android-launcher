@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- "+N autres événements" at the end of a long agenda; opens the calendar. -->
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?android:attr/selectableItemBackground"
+    android:clickable="true"
+    android:focusable="true"
+    android:paddingHorizontal="32dp"
+    android:paddingVertical="8dp"
+    android:textColor="#99FFFFFF"
+    android:textSize="13sp"
+    tools:text="+2 autres événements" />

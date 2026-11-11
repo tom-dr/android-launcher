@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- One provider (Claude Code or Codex) inside the work profile's quota
+     widget. Tap: connect, or refresh once connected. Long-press: menu.
+     Its two windows sit side by side so both providers fit above the dock. -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?android:attr/selectableItemBackground"
+    android:clickable="true"
+    android:focusable="true"
+    android:orientation="vertical"
+    android:paddingHorizontal="16dp"
+    android:paddingVertical="8dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/quotaProviderName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textColor="@android:color/white"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            tools:text="Claude Code" />
+
+        <TextView
+            android:id="@+id/quotaStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxLines="1"
+            android:textColor="#99FFFFFF"
+            android:textSize="12sp"
+            tools:text="Pro · il y a 2 min" />
+
+        <ImageView
+            android:id="@+id/quotaRefresh"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:layout_marginStart="6dp"
+            android:background="?android:attr/selectableItemBackgroundBorderless"
+            android:contentDescription="@string/ai_quota_refresh"
+            android:padding="5dp"
+            android:src="@drawable/ic_refresh"
+            android:tint="#99FFFFFF"
+            android:visibility="gone" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/quotaConnectHint"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:text="@string/ai_quota_connect_hint"
+        android:textColor="#B3FFFFFF"
+        android:textSize="13sp"
+        android:visibility="gone" />
+
+    <LinearLayout
+        android:id="@+id/quotaWindows"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:id="@+id/quotaPrimary"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/quotaPrimaryLabel"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:maxLines="1"
+                    android:textColor="#CCFFFFFF"
+                    android:textSize="13sp"
+                    tools:text="Session 5 h" />
+
+                <TextView
+                    android:id="@+id/quotaPrimaryPercent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@android:color/white"
+                    android:textSize="13sp"
+                    tools:text="44 %" />
+
+            </LinearLayout>
+
+            <ProgressBar
+                android:id="@+id/quotaPrimaryBar"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="match_parent"
+                android:layout_height="6dp"
+                android:layout_marginTop="3dp"
+                android:max="100"
+                android:progressDrawable="@drawable/bg_quota_progress"
+                tools:progress="44" />
+
+            <TextView
+                android:id="@+id/quotaPrimaryReset"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:maxLines="1"
+                android:textColor="#80FFFFFF"
+                android:textSize="11sp"
+                tools:text="réinit. dans 1 h 12" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/quotaSecondary"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/quotaSecondaryLabel"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:maxLines="1"
+                    android:textColor="#CCFFFFFF"
+                    android:textSize="13sp"
+                    tools:text="Semaine" />
+
+                <TextView
+                    android:id="@+id/quotaSecondaryPercent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@android:color/white"
+                    android:textSize="13sp"
+                    tools:text="66 %" />
+
+            </LinearLayout>
+
+            <ProgressBar
+                android:id="@+id/quotaSecondaryBar"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="match_parent"
+                android:layout_height="6dp"
+                android:layout_marginTop="3dp"
+                android:max="100"
+                android:progressDrawable="@drawable/bg_quota_progress"
+                tools:progress="66" />
+
+            <TextView
+                android:id="@+id/quotaSecondaryReset"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:maxLines="1"
+                android:textColor="#80FFFFFF"
+                android:textSize="11sp"
+                tools:text="réinit. lun. 06:59" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

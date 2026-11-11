@@ -23,9 +23,14 @@ class MagifyApplication : Application() {
     lateinit var preloadedFolders: Deferred<List<LauncherFolder>>
         private set
 
+    lateinit var aiQuotas: AiQuotaManager
+        private set
+
     override fun onCreate() {
         super.onCreate()
         repository = AppRepository(this)
+        aiQuotas = AiQuotaManager(this)
+        AiQuotaJobService.schedule(this)
         preloadedFolders = appScope.async { repository.buildFolders() }
     }
 }

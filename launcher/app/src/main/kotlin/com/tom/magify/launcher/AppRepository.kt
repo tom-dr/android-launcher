@@ -20,16 +20,29 @@ class AppRepository(private val context: Context) {
 
     private val pm: PackageManager = context.packageManager
 
+    // Réseaux sociaux and Multimédia are used most often day to day, so they
+    // lead; Jeux is pushed near the end; Autres always stays last.
     private val folderOrder = listOf(
-        "Jeux",
         "Réseaux sociaux",
-        "Finance & Banque",
+        "Navigation",
+        "Multimédia",
         "Outils & Productivité",
+        "Finance & Banque",
         "Shopping",
         "Santé & Bien-être",
-        "Multimédia",
         "Administratif",
+        "Jeux",
         "Autres"
+    )
+
+    // Checked before everything else (declared category included): browsers
+    // are a well-known, enumerable set, so this is worth pulling out ahead
+    // of any broader "social"/"communication" declared-category match that
+    // would otherwise catch them alongside the actual social apps.
+    private val navigationKeywords = listOf(
+        "browser", "navigateur", "chrome", "firefox", "torproject",
+        "duckduckgo", "brave", "opera", "vivaldi", "samsung internet",
+        "ucbrowser", "puffin", "dolphin", "qwant", "ecosia", "startpage"
     )
 
     private val keywordMap: Map<String, List<String>> = mapOf(
@@ -62,7 +75,8 @@ class AppRepository(private val context: Context) {
             "youtube", "gallery", "tiktok"
         ),
         "Administratif" to listOf(
-            "impots", "gouv", "ameli", "caf", "admin", "identit", "amendes"
+            "impots", "gouv", "ameli", "caf", "admin", "identit", "amende",
+            "autoentrepreneur", "entrepreneur", "cpf", "urssaf", "ants"
         )
     )
 
@@ -77,42 +91,65 @@ class AppRepository(private val context: Context) {
         IconCache.ensureCapacity(context, resolveInfos.size)
 
         for (resolveInfo in resolveInfos) {
-            val app = toLauncherApp(resolveInfo)
+            // loadLabel() does a resource lookup, not a field read — worth
+            // computing once and reusing, rather than paying for it twice
+            // per app (toLauncherApp + resolveFolder) on every rebuild.
+            val label = resolveInfo.loadLabel(pm).toString()
+            val app = toLauncherApp(resolveInfo, label)
             // Decode + resize + cache the icon here, off the main thread, so
             // RecyclerView binds later are pure cache hits.
             IconCache.get(context, app.iconCacheKey) { resolveInfo.loadIcon(pm) }
-            val folderName = resolveFolder(resolveInfo)
+            val folderName = resolveFolder(resolveInfo, label)
             grouped.getOrPut(folderName) { mutableListOf() }.add(app)
         }
 
+        // Most-used-first within each folder; apps with no (or equal, e.g.
+        // zero) usage fall back to alphabetical among themselves.
+        val usage = UsageScores.get(context)
+        val comparator = compareByDescending<LauncherApp> { usage[it.packageName] ?: 0L }
+            .thenBy { it.label.lowercase() }
+
         folderOrder.mapNotNull { name ->
-            val apps = grouped[name].orEmpty().sortedBy { it.label.lowercase() }
+            val apps = grouped[name].orEmpty().sortedWith(comparator)
             if (apps.isEmpty()) null else LauncherFolder(name, apps)
         }
     }
 
     private fun queryLaunchableApps(): List<ResolveInfo> {
         val intent = Intent(Intent.ACTION_MAIN).addCategory(Intent.CATEGORY_LAUNCHER)
-        return pm.queryIntentActivities(intent, PackageManager.MATCH_ALL)
+        // No match-type flags at all — *not* MATCH_ALL, which also pulls in
+        // components the user has disabled (MATCH_DISABLED_COMPONENTS is
+        // part of it), defeating "Désactiver". And *not* MATCH_DEFAULT_ONLY
+        // either: confirmed on-device that it silently drops launcher
+        // activities whose manifest declares only CATEGORY_LAUNCHER without
+        // also declaring CATEGORY_DEFAULT, which most launcher icons do —
+        // more than half the app drawer vanished under that flag in testing.
+        // Passing 0 is PackageManager's normal, unmodified query: it already
+        // excludes disabled components on its own, with neither drawback.
+        return pm.queryIntentActivities(intent, 0)
             .distinctBy { it.activityInfo.packageName }
     }
 
-    private fun toLauncherApp(info: ResolveInfo): LauncherApp = LauncherApp(
-        label = info.loadLabel(pm).toString(),
+    private fun toLauncherApp(info: ResolveInfo, label: String): LauncherApp = LauncherApp(
+        label = label,
         packageName = info.activityInfo.packageName,
         activityName = info.activityInfo.name,
         resolveInfo = info
     )
 
-    private fun resolveFolder(info: ResolveInfo): String {
-        mapDeclaredCategory(info.activityInfo.applicationInfo.category)?.let { return it }
-
+    private fun resolveFolder(info: ResolveInfo, label: String): String {
         val pkg = info.activityInfo.packageName.lowercase()
-        val label = info.loadLabel(pm).toString().lowercase()
+        val lowerLabel = label.lowercase()
+
+        if (navigationKeywords.any { pkg.contains(it) || lowerLabel.contains(it) }) {
+            return "Navigation"
+        }
+
+        mapDeclaredCategory(info.activityInfo.applicationInfo.category)?.let { return it }
 
         for (name in folderOrder) {
             val keywords = keywordMap[name] ?: continue
-            if (keywords.any { pkg.contains(it) || label.contains(it) }) {
+            if (keywords.any { pkg.contains(it) || lowerLabel.contains(it) }) {
                 return name
             }
         }

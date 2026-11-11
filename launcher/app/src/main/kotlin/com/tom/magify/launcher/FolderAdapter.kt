@@ -12,8 +12,12 @@ private const val SPAN_COUNT = 4
 private const val ROW_HEIGHT_DP = 88
 private const val POOL_CAPACITY = 40
 
+/** The "all apps" view: every category stacked and scrollable at once, each
+ *  with its own inline app grid — the original layout, also reused to show
+ *  search results as a single pseudo-folder. */
 class FolderAdapter(
-    private val onAppClick: (LauncherApp) -> Unit
+    private val onAppClick: (LauncherApp) -> Unit,
+    private val onAppLongClick: (LauncherApp, android.view.View) -> Unit = { _, _ -> }
 ) : RecyclerView.Adapter<FolderAdapter.ViewHolder>() {
 
     private var folders: List<LauncherFolder> = emptyList()
@@ -28,10 +32,6 @@ class FolderAdapter(
         setHasStableIds(true)
     }
 
-    /** Called by MainActivity on every refresh instead of swapping in a brand
-     *  new FolderAdapter: DiffUtil leaves folders whose app list didn't
-     *  change alone, so a single app install/uninstall doesn't force every
-     *  folder row to re-measure and re-bind. */
     fun updateFolders(newFolders: List<LauncherFolder>) {
         val diff = DiffUtil.calculateDiff(FolderDiffCallback(folders, newFolders))
         folders = newFolders
@@ -55,7 +55,7 @@ class FolderAdapter(
     }
 
     inner class ViewHolder(val binding: ItemFolderBinding) : RecyclerView.ViewHolder(binding.root) {
-        val gridAdapter = AppGridAdapter(onAppClick)
+        val gridAdapter = AppGridAdapter(onAppClick, onAppLongClick)
         val rowHeightPx = (ROW_HEIGHT_DP * binding.root.resources.displayMetrics.density).toInt()
 
         init {

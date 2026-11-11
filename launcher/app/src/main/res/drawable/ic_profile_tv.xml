@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Same round badge as ic_profile_avatar, for profiles tied to a moment or
+     an activity rather than to an account. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="30dp"
+    android:height="30dp"
+    android:viewportWidth="30"
+    android:viewportHeight="30">
+    <path
+        android:fillColor="#336B8FFF"
+        android:pathData="M15,0A15,15 0,1 0,15 30A15,15 0,1 0,15 0" />
+    <group
+        android:scaleX="0.6667"
+        android:scaleY="0.6667"
+        android:translateX="7"
+        android:translateY="7">
+        <path
+            android:fillColor="#FFFFFFFF"
+            android:pathData="M21,3H3c-1.1,0 -2,0.9 -2,2v12c0,1.1 0.9,2 2,2h5v2h8v-2h5c1.1,0 1.99,-0.9 1.99,-2L23,5c0,-1.1 -0.9,-2 -2,-2zM21,17H3V5h18v12z" />
+    </group>
+</vector>

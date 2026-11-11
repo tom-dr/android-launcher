@@ -2,4 +2,15 @@
     <string name="app_name">Magify Launcher</string>
     <string name="search_hint">Rechercher une application</string>
     <string name="search_results_folder">Résultats</string>
+    <string name="ai_quota_connect_hint">Toucher pour se connecter</string>
+    <string name="ai_quota_connecting">Connexion en cours…</string>
+    <string name="ai_quota_loading">Actualisation…</string>
+    <string name="ai_quota_refresh">Actualiser</string>
+    <string name="ai_quota_login">Se connecter</string>
+    <string name="ai_quota_logout">Se déconnecter</string>
+    <string name="ai_quota_no_browser">Aucun navigateur pour se connecter</string>
+    <string name="ai_quota_layout_rows">Afficher sur deux lignes</string>
+    <string name="ai_quota_layout_columns">Afficher sur deux colonnes</string>
+    <string name="ai_quota_show_plan">Afficher le forfait</string>
+    <string name="ai_quota_show_percent">Afficher le pourcentage</string>
 </resources>

@@ -15,6 +15,8 @@ import android.widget.EditText
 import androidx.activity.addCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.tom.magify.launcher.databinding.ActivityMainBinding
 import kotlinx.coroutines.Job
@@ -27,6 +29,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var repository: AppRepository
     private lateinit var folderAdapter: FolderAdapter
+    private lateinit var aiQuotaWidget: AiQuotaWidget
     private var loadJob: Job? = null
     private var firstLoad = true
 
@@ -57,6 +60,18 @@ class MainActivity : AppCompatActivity() {
             // doesn't keep re-creating/re-binding rows at the edges.
             setItemViewCacheSize(OFFSCREEN_FOLDER_CACHE)
             adapter = folderAdapter
+        }
+        aiQuotaWidget = AiQuotaWidget(
+            this,
+            (application as MagifyApplication).aiQuotas,
+            mapOf(AiProvider.CLAUDE to binding.claudeQuota, AiProvider.CODEX to binding.codexQuota)
+        )
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                (application as MagifyApplication).aiQuotas.states.collect {
+                    aiQuotaWidget.render(it)
+                }
+            }
         }
         loadApps()
 
@@ -120,8 +135,17 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onDestroy() {
+        aiQuotaWidget.stopTicking()
         unregisterReceiver(packageChangeReceiver)
         super.onDestroy()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        aiQuotaWidget.startTicking()
+        (application as MagifyApplication).aiQuotas.onForeground(
+            refreshQuotas = true
+        )
     }
 
     private fun loadApps() {
